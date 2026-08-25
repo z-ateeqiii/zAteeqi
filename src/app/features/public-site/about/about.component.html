@@ -1,1 +1,31 @@
-<p>about works!</p>
+<section id="about" [appRevealOnScroll]="0" class="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+  <p class="font-mono text-signal-blue text-xs">/about</p>
+  <h2 class="font-display text-text mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
+    About
+  </h2>
+
+  <div class="mt-10 grid gap-10 lg:grid-cols-[1.1fr_1fr]">
+    <div class="font-body text-text-muted space-y-4 text-base leading-relaxed">
+      @for (paragraph of aboutCopy; track paragraph) {
+        <p>{{ paragraph }}</p>
+      }
+    </div>
+
+    <div class="space-y-6">
+      @for (group of skillGroups; track group.label) {
+        <div>
+          <p class="font-mono text-text-faint text-xs">{{ group.label }}</p>
+          <ul class="mt-2 flex flex-wrap gap-2">
+            @for (skill of group.skills; track skill) {
+              <li
+                class="font-mono border-border text-text-muted rounded border px-2 py-1 text-xs"
+              >
+                {{ skill }}
+              </li>
+            }
+          </ul>
+        </div>
+      }
+    </div>
+  </div>
+</section>

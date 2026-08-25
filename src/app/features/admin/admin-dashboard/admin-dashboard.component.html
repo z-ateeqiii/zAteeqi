@@ -1,1 +1,97 @@
-<p>admin-dashboard works!</p>
+<div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+  <div class="flex flex-wrap items-center justify-between gap-4">
+    <div>
+      <p class="font-mono text-signal-blue text-xs">/admin/dashboard</p>
+      <h1 class="font-display text-text mt-1 text-2xl font-semibold tracking-tight">
+        Deployment console
+      </h1>
+      <p class="font-mono text-text-faint mt-1 text-xs">role: admin ({{ userEmail() }})</p>
+    </div>
+    <button
+      type="button"
+      (click)="onSignOut()"
+      class="border-border text-text-muted font-body rounded-md border px-4 py-2 text-sm hover:text-text"
+    >
+      Sign out
+    </button>
+  </div>
+
+  <section class="mt-10">
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <h2 class="font-display text-text text-lg font-semibold">Projects</h2>
+      <div class="flex items-center gap-3">
+        @if (seedMessage()) {
+          <span class="font-mono text-text-faint text-xs">{{ seedMessage() }}</span>
+        }
+        <button
+          type="button"
+          (click)="onSeedStarterProjects()"
+          [disabled]="isSeeding()"
+          class="border-border text-text-muted font-body rounded-md border px-4 py-2 text-sm hover:text-text disabled:opacity-50"
+        >
+          {{ isSeeding() ? 'Seeding…' : 'Seed starter projects' }}
+        </button>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <app-project-form />
+    </div>
+
+    <div class="mt-4 space-y-3">
+      @for (project of projects(); track project.id) {
+        <app-project-row [project]="project" />
+      } @empty {
+        <p class="font-body text-text-muted text-sm">
+          No projects yet — seed the starter set or add one above.
+        </p>
+      }
+    </div>
+  </section>
+
+  <section class="mt-14">
+    <h2 class="font-display text-text text-lg font-semibold">Analytics</h2>
+    <p class="font-mono text-text-faint mt-1 text-xs">private · visible only to admin</p>
+
+    <div class="border-border bg-surface divide-border mt-4 grid grid-cols-2 divide-x divide-y border sm:grid-cols-2">
+      <div class="p-4">
+        <p class="font-display text-text text-2xl font-semibold">{{ summary().totalEvents }}</p>
+        <p class="font-mono text-text-faint mt-1 text-xs">total events</p>
+      </div>
+      <div class="p-4">
+        <p class="font-display text-text text-2xl font-semibold">{{ summary().uniqueSessions }}</p>
+        <p class="font-mono text-text-faint mt-1 text-xs">unique sessions</p>
+      </div>
+    </div>
+
+    <div class="mt-6 grid gap-6 sm:grid-cols-2">
+      <div>
+        <p class="font-mono text-text-faint text-xs">events by day</p>
+        <ul class="mt-2 space-y-1">
+          @for (entry of summary().byDay; track entry[0]) {
+            <li class="font-mono text-text-muted flex justify-between text-xs">
+              <span>{{ entry[0] }}</span>
+              <span>{{ entry[1] }}</span>
+            </li>
+          } @empty {
+            <li class="font-body text-text-faint text-sm">No events yet.</li>
+          }
+        </ul>
+      </div>
+
+      <div>
+        <p class="font-mono text-text-faint text-xs">most-clicked links</p>
+        <ul class="mt-2 space-y-1">
+          @for (entry of summary().byTarget; track entry[0]) {
+            <li class="font-mono text-text-muted flex justify-between text-xs">
+              <span>{{ entry[0] }}</span>
+              <span>{{ entry[1] }}</span>
+            </li>
+          } @empty {
+            <li class="font-body text-text-faint text-sm">No clicks yet.</li>
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,1 +1,111 @@
-<p>project-form works!</p>
+<form
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+  class="border-border bg-surface grid gap-4 rounded-lg border p-5 sm:grid-cols-2"
+>
+  <div class="sm:col-span-2">
+    <p class="font-mono text-text-faint text-xs">add project</p>
+  </div>
+
+  <div>
+    <label for="pf-id" class="font-mono text-text-faint text-xs">id (slug)</label>
+    <input
+      id="pf-id"
+      formControlName="id"
+      placeholder="scholarship-ops"
+      class="border-border bg-surface-2 text-text focus:border-signal-blue mt-1 w-full rounded-md border px-3 py-2 text-sm outline-none"
+    />
+  </div>
+
+  <div>
+    <label for="pf-title" class="font-mono text-text-faint text-xs">title</label>
+    <input
+      id="pf-title"
+      formControlName="title"
+      class="border-border bg-surface-2 text-text focus:border-signal-blue mt-1 w-full rounded-md border px-3 py-2 text-sm outline-none"
+    />
+  </div>
+
+  <div>
+    <label for="pf-route" class="font-mono text-text-faint text-xs">route (display)</label>
+    <input
+      id="pf-route"
+      formControlName="route"
+      placeholder="/projects/scholarship-ops"
+      class="border-border bg-surface-2 text-text focus:border-signal-blue mt-1 w-full rounded-md border px-3 py-2 text-sm outline-none"
+    />
+  </div>
+
+  <div>
+    <label for="pf-tags" class="font-mono text-text-faint text-xs">tags (comma-separated)</label>
+    <input
+      id="pf-tags"
+      formControlName="tags"
+      class="border-border bg-surface-2 text-text focus:border-signal-blue mt-1 w-full rounded-md border px-3 py-2 text-sm outline-none"
+    />
+  </div>
+
+  <div class="sm:col-span-2">
+    <label for="pf-description" class="font-mono text-text-faint text-xs">description</label>
+    <textarea
+      id="pf-description"
+      formControlName="description"
+      rows="2"
+      class="border-border bg-surface-2 text-text focus:border-signal-blue mt-1 w-full rounded-md border px-3 py-2 text-sm outline-none"
+    ></textarea>
+  </div>
+
+  <div>
+    <label for="pf-live" class="font-mono text-text-faint text-xs">live URL</label>
+    <input
+      id="pf-live"
+      formControlName="liveUrl"
+      class="border-border bg-surface-2 text-text focus:border-signal-blue mt-1 w-full rounded-md border px-3 py-2 text-sm outline-none"
+    />
+  </div>
+
+  <div>
+    <label for="pf-github" class="font-mono text-text-faint text-xs">GitHub URL</label>
+    <input
+      id="pf-github"
+      formControlName="githubUrl"
+      class="border-border bg-surface-2 text-text focus:border-signal-blue mt-1 w-full rounded-md border px-3 py-2 text-sm outline-none"
+    />
+  </div>
+
+  <div>
+    <label for="pf-status" class="font-mono text-text-faint text-xs">status</label>
+    <select
+      id="pf-status"
+      formControlName="status"
+      class="border-border bg-surface-2 text-text focus:border-signal-blue mt-1 w-full rounded-md border px-3 py-2 text-sm outline-none"
+    >
+      <option value="live">live</option>
+      <option value="draft">draft</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="pf-order" class="font-mono text-text-faint text-xs">order</label>
+    <input
+      id="pf-order"
+      type="number"
+      formControlName="order"
+      class="border-border bg-surface-2 text-text focus:border-signal-blue mt-1 w-full rounded-md border px-3 py-2 text-sm outline-none"
+    />
+  </div>
+
+  @if (errorMessage()) {
+    <p class="text-signal-coral font-body text-sm sm:col-span-2">{{ errorMessage() }}</p>
+  }
+
+  <div class="sm:col-span-2">
+    <button
+      type="submit"
+      [disabled]="form.invalid || isSubmitting()"
+      class="bg-signal-blue font-body rounded-md px-4 py-2.5 text-sm font-medium text-white disabled:opacity-50"
+    >
+      {{ isSubmitting() ? 'Adding…' : 'Add project' }}
+    </button>
+  </div>
+</form>

@@ -1,1 +1,7 @@
-<p>admin works!</p>
+<app-topbar staticPath="/admin" guestLabel="guest" />
+
+@if (isSignedIn()) {
+  <app-admin-dashboard />
+} @else {
+  <app-admin-login />
+}

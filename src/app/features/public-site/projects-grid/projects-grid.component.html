@@ -1,1 +1,54 @@
-<p>projects-grid works!</p>
+<section id="projects" class="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+  <p class="font-mono text-signal-blue text-xs">/projects</p>
+  <h2 class="font-display text-text mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
+    Selected work
+  </h2>
+
+  <div class="mt-10 grid gap-5 sm:grid-cols-2">
+    @for (project of projects(); track project.id; let i = $index) {
+      <article
+        [appRevealOnScroll]="i * 60"
+        class="group border-border bg-surface hover:border-signal-blue/50 hover:shadow-signal-blue/10 flex flex-col rounded-lg border p-5 transition-all hover:-translate-y-1 hover:shadow-lg"
+      >
+        <div class="flex items-center gap-2">
+          <app-status-dot [status]="project.status" />
+          <span class="font-mono text-text-faint text-xs">{{ project.route }}</span>
+        </div>
+
+        <h3 class="font-display text-text mt-3 text-lg font-semibold">{{ project.title }}</h3>
+        <p class="font-body text-text-muted mt-2 text-sm leading-relaxed">
+          {{ project.description }}
+        </p>
+
+        <ul class="mt-4 flex flex-wrap gap-2">
+          @for (tag of project.tags; track tag) {
+            <li class="font-mono bg-surface-2 text-text-muted rounded px-2 py-1 text-xs">
+              {{ tag }}
+            </li>
+          }
+        </ul>
+
+        <div class="border-border mt-5 flex gap-4 border-t pt-4 text-sm">
+          <a
+            [href]="project.liveUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            (click)="onLinkClick('live', project.id)"
+            class="text-signal-blue font-body font-medium hover:underline"
+          >
+            Live demo
+          </a>
+          <a
+            [href]="project.githubUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            (click)="onLinkClick('source', project.id)"
+            class="font-body text-text-muted font-medium hover:underline"
+          >
+            Source
+          </a>
+        </div>
+      </article>
+    }
+  </div>
+</section>

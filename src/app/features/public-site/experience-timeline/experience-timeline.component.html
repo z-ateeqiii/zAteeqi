@@ -1,1 +1,24 @@
-<p>experience-timeline works!</p>
+<section id="experience" class="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+  <p class="font-mono text-signal-blue text-xs">/experience</p>
+  <h2 class="font-display text-text mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
+    Experience
+  </h2>
+
+  <ol class="border-border mt-10 space-y-8 border-l pl-6">
+    @for (entry of experience; track entry.org; let i = $index) {
+      <li [appRevealOnScroll]="i * 60" class="relative">
+        <span class="bg-signal-blue absolute top-1.5 -left-7.25 h-2.5 w-2.5 rounded-full"></span>
+        <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+          <h3 class="font-display text-text text-base font-semibold">
+            {{ entry.role }} · {{ entry.org }}
+          </h3>
+          <span class="font-mono text-text-faint text-xs">{{ entry.dates }}</span>
+        </div>
+        <p class="font-mono text-text-faint mt-1 text-xs">{{ entry.employment }}</p>
+        <p class="font-body text-text-muted mt-2 max-w-2xl text-sm leading-relaxed">
+          {{ entry.description }}
+        </p>
+      </li>
+    }
+  </ol>
+</section>

@@ -1,9 +1,39 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-admin-login',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './admin-login.component.html',
   styleUrl: './admin-login.component.scss',
 })
-export class AdminLoginComponent {}
+export class AdminLoginComponent {
+  private readonly fb = inject(FormBuilder);
+  private readonly auth = inject(AuthService);
+
+  readonly isSubmitting = signal(false);
+  readonly errorMessage = signal<string | null>(null);
+
+  readonly form = this.fb.nonNullable.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required]],
+  });
+
+  async onSubmit(): Promise<void> {
+    if (this.form.invalid || this.isSubmitting()) return;
+
+    this.isSubmitting.set(true);
+    this.errorMessage.set(null);
+
+    const { email, password } = this.form.getRawValue();
+
+    try {
+      await this.auth.signIn(email, password);
+    } catch {
+      this.errorMessage.set('Sign-in failed. Check your email and password.');
+    } finally {
+      this.isSubmitting.set(false);
+    }
+  }
+}

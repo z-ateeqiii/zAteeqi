@@ -1,1 +1,41 @@
-<p>admin-login works!</p>
+<div class="mx-auto flex min-h-[calc(100vh-3.5rem)] max-w-sm flex-col justify-center px-4">
+  <p class="font-mono text-signal-blue text-xs">/admin/login</p>
+  <h1 class="font-display text-text mt-2 text-2xl font-semibold tracking-tight">Sign in</h1>
+  <p class="font-body text-text-muted mt-1 text-sm">Admin access to the deployment console.</p>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="mt-8 space-y-4">
+    <div>
+      <label for="email" class="font-mono text-text-faint text-xs">email</label>
+      <input
+        id="email"
+        type="email"
+        formControlName="email"
+        autocomplete="email"
+        class="border-border bg-surface-2 text-text focus:border-signal-blue mt-1 w-full rounded-md border px-3 py-2 text-sm outline-none"
+      />
+    </div>
+
+    <div>
+      <label for="password" class="font-mono text-text-faint text-xs">password</label>
+      <input
+        id="password"
+        type="password"
+        formControlName="password"
+        autocomplete="current-password"
+        class="border-border bg-surface-2 text-text focus:border-signal-blue mt-1 w-full rounded-md border px-3 py-2 text-sm outline-none"
+      />
+    </div>
+
+    @if (errorMessage()) {
+      <p class="text-signal-coral font-body text-sm">{{ errorMessage() }}</p>
+    }
+
+    <button
+      type="submit"
+      [disabled]="form.invalid || isSubmitting()"
+      class="bg-signal-blue font-body w-full rounded-md px-4 py-2.5 text-sm font-medium text-white disabled:opacity-50"
+    >
+      {{ isSubmitting() ? 'Signing in…' : 'Sign in' }}
+    </button>
+  </form>
+</div>

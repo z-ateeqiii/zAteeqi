@@ -1,1 +1,72 @@
-<p>project-row works!</p>
+<form [formGroup]="form" (ngSubmit)="onSave()" class="border-border bg-surface rounded-lg border p-4">
+  <div class="flex items-center gap-2">
+    <app-status-dot [status]="project().status" />
+    <span class="font-mono text-text-faint text-xs">{{ project().id }}</span>
+  </div>
+
+  <div class="mt-3 grid gap-3 sm:grid-cols-2">
+    <input
+      formControlName="title"
+      aria-label="Title"
+      class="border-border bg-surface-2 text-text focus:border-signal-blue rounded-md border px-3 py-2 text-sm outline-none"
+    />
+    <input
+      formControlName="route"
+      aria-label="Route"
+      class="font-mono border-border bg-surface-2 text-text focus:border-signal-blue rounded-md border px-3 py-2 text-sm outline-none"
+    />
+    <input
+      formControlName="tags"
+      aria-label="Tags"
+      class="border-border bg-surface-2 text-text focus:border-signal-blue rounded-md border px-3 py-2 text-sm outline-none sm:col-span-2"
+    />
+    <textarea
+      formControlName="description"
+      aria-label="Description"
+      rows="2"
+      class="border-border bg-surface-2 text-text focus:border-signal-blue rounded-md border px-3 py-2 text-sm outline-none sm:col-span-2"
+    ></textarea>
+    <input
+      formControlName="liveUrl"
+      aria-label="Live URL"
+      class="border-border bg-surface-2 text-text focus:border-signal-blue rounded-md border px-3 py-2 text-sm outline-none"
+    />
+    <input
+      formControlName="githubUrl"
+      aria-label="GitHub URL"
+      class="border-border bg-surface-2 text-text focus:border-signal-blue rounded-md border px-3 py-2 text-sm outline-none"
+    />
+    <select
+      formControlName="status"
+      aria-label="Status"
+      class="border-border bg-surface-2 text-text focus:border-signal-blue rounded-md border px-3 py-2 text-sm outline-none"
+    >
+      <option value="live">live</option>
+      <option value="draft">draft</option>
+    </select>
+    <input
+      type="number"
+      formControlName="order"
+      aria-label="Order"
+      class="border-border bg-surface-2 text-text focus:border-signal-blue rounded-md border px-3 py-2 text-sm outline-none"
+    />
+  </div>
+
+  <div class="mt-3 flex gap-3">
+    <button
+      type="submit"
+      [disabled]="form.invalid || isSaving()"
+      class="bg-signal-blue font-body rounded-md px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+    >
+      {{ isSaving() ? 'Saving…' : 'Save' }}
+    </button>
+    <button
+      type="button"
+      (click)="onDelete()"
+      [disabled]="isDeleting()"
+      class="text-signal-coral border-signal-coral/40 font-body rounded-md border px-4 py-2 text-sm font-medium disabled:opacity-50"
+    >
+      {{ isDeleting() ? 'Deleting…' : 'Delete' }}
+    </button>
+  </div>
+</form>
