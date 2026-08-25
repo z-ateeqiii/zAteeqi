@@ -16,10 +16,7 @@ import {
   where,
 } from '@angular/fire/firestore';
 import { Project, ProjectWithId } from '../models/project.model';
-import {
-  STARTER_LIVE_PROJECTS,
-  STARTER_PROJECTS,
-} from '../data/starter-projects.data';
+import { STARTER_LIVE_PROJECTS, STARTER_PROJECTS } from '../data/starter-projects.data';
 import { isFirebaseConfigured } from '../firebase/firebase.providers';
 
 @Injectable({

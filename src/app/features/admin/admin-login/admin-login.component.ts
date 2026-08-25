@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService, FirebaseNotConfiguredError } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-admin-login',
@@ -14,6 +14,9 @@ export class AdminLoginComponent {
 
   readonly isSubmitting = signal(false);
   readonly errorMessage = signal<string | null>(null);
+
+  /** Drives an up-front notice, so the form isn't offered as if it could work. */
+  readonly isFirebaseReady = this.auth.isEnabled;
 
   readonly form = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
@@ -30,8 +33,12 @@ export class AdminLoginComponent {
 
     try {
       await this.auth.signIn(email, password);
-    } catch {
-      this.errorMessage.set('Sign-in failed. Check your email and password.');
+    } catch (error) {
+      this.errorMessage.set(
+        error instanceof FirebaseNotConfiguredError
+          ? 'Firebase is not configured yet — add your project config to src/environments/.'
+          : 'Sign-in failed. Check your email and password.',
+      );
     } finally {
       this.isSubmitting.set(false);
     }

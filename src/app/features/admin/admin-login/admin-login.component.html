@@ -5,6 +5,15 @@
   <h1 class="font-display text-text mt-2 text-2xl font-semibold tracking-tight">Sign in</h1>
   <p class="font-body text-text-muted mt-1 text-sm">Admin access to the deployment console.</p>
 
+  @if (!isFirebaseReady) {
+    <p
+      class="border-signal-amber/30 bg-signal-amber/10 text-signal-amber font-mono mt-6 rounded-lg border px-3 py-2.5 text-[11px] leading-relaxed"
+    >
+      Firebase is not configured yet. Add your project config to
+      <span class="text-text">src/environments/environment.ts</span> to enable sign-in.
+    </p>
+  }
+
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="mt-8 space-y-4">
     <div>
       <label for="email" class="font-mono text-text-faint text-xs">email</label>

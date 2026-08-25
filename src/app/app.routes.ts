@@ -8,8 +8,7 @@ export const routes: Routes = [
     // ReactiveFormsModule) is only ever needed by Muhammed, so keeping it out
     // of the initial bundle spares every public visitor the download.
     path: 'admin',
-    loadComponent: () =>
-      import('./features/admin/admin.component').then((m) => m.AdminComponent),
+    loadComponent: () => import('./features/admin/admin.component').then((m) => m.AdminComponent),
   },
   { path: '**', redirectTo: '' },
 ];

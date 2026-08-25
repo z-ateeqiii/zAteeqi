@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /*
  * Design tokens (spec 2.3). These are emitted as CSS custom properties on
@@ -26,9 +26,9 @@
   --color-signal-coral: #ff6b57;
 
   /* Type families */
-  --font-display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
-  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+  --font-display: 'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Consolas, monospace;
 
   /* Make the theme fonts the document defaults so Tailwind's own preflight
      resolves to them instead of the stock ui-sans-serif stack. */
