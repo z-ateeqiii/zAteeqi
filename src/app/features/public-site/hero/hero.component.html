@@ -1,62 +1,118 @@
-<section id="home" class="mx-auto max-w-6xl px-4 pt-16 pb-20 sm:px-6 sm:pt-24 sm:pb-28">
-  <div class="font-mono text-text-muted mb-8 min-h-16 text-sm sm:text-base">
-    @for (line of bootLines; track line; let i = $index) {
-      @if (i < visibleLineCount()) {
-        <p class="leading-relaxed">
-          {{ line }}
-          @if (bootComplete() && i === bootLines.length - 1) {
-            <span class="cursor" aria-hidden="true">▌</span>
-          }
-        </p>
+<section id="home">
+  <div class="mx-auto max-w-6xl px-5 pt-14 pb-16 sm:px-8 md:pt-20 md:pb-22">
+    <!-- Boot sequence (spec 2.3). Decorative framing, hidden from assistive tech. -->
+    <div
+      class="font-mono text-text-muted mb-9 min-h-[5.25rem] text-[13px] leading-7 sm:text-sm"
+      aria-hidden="true"
+    >
+      @for (line of bootLines; track line.text; let i = $index) {
+        @if (i < visibleLineCount()) {
+          <p class="boot-line">
+            <span class="text-signal-blue">{{ line.prompt }}</span>
+            {{ line.text }}
+            @if (isCursorLine(i)) {
+              <span class="boot-cursor">▌</span>
+            }
+          </p>
+        }
       }
-    }
-  </div>
+    </div>
 
-  <h1
-    class="font-display text-text max-w-3xl text-4xl leading-tight font-semibold tracking-tight sm:text-5xl md:text-6xl"
-  >
-    {{ heroCopy.title }}
-  </h1>
-
-  <p class="font-body text-text-muted mt-6 max-w-2xl text-base leading-relaxed sm:text-lg">
-    {{ heroCopy.subhead }}
-  </p>
-
-  <div class="mt-8 flex flex-wrap items-center gap-4">
-    <a
-      [href]="'mailto:' + profile.email"
-      (click)="onCtaClick('email:hero')"
-      class="bg-signal-blue font-body rounded-md px-5 py-2.5 text-sm font-medium text-white transition-transform hover:-translate-y-0.5"
+    <p
+      class="border-border bg-surface/60 text-text-muted font-mono mb-7 inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[11px] tracking-[0.04em] backdrop-blur"
     >
-      Email me
-    </a>
-    <a
-      href="#projects"
-      (click)="onCtaClick('view-projects:hero')"
-      class="font-body text-text border-border hover:bg-surface rounded-md border px-5 py-2.5 text-sm font-medium transition-colors"
-    >
-      View projects
-    </a>
-  </div>
+      <span class="bg-signal-green h-1.5 w-1.5 shrink-0 rounded-full"></span>
+      {{ profile.role }}
+      <span class="text-text-faint" aria-hidden="true">·</span>
+      <span class="text-text-faint">{{ profile.location }}</span>
+    </p>
 
-  <div
-    class="border-border divide-border mt-14 grid grid-cols-2 divide-x divide-y border sm:grid-cols-4 sm:divide-y-0"
-  >
-    <div class="p-4">
-      <p class="font-display text-text text-2xl font-semibold">{{ liveProjectCount() }}</p>
-      <p class="font-mono text-text-faint mt-1 text-xs">live projects</p>
+    <h1
+      class="font-display text-gradient max-w-4xl text-[2.125rem] leading-[1.08] font-semibold tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-[4.25rem]"
+    >
+      {{ heroCopy.title }}
+    </h1>
+
+    <p class="font-body text-text-muted mt-7 max-w-2xl text-base leading-relaxed md:text-lg">
+      {{ heroCopy.subhead }}
+    </p>
+
+    <div class="mt-9 flex flex-wrap items-center gap-3">
+      <a
+        [href]="'mailto:' + profile.email"
+        (click)="onCtaClick('email:hero')"
+        class="bg-signal-blue hover:bg-signal-blue-hi text-ink font-body glow-blue group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5"
+      >
+        Email me
+        <svg
+          class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M2.5 8h11M9.5 4l4 4-4 4" />
+        </svg>
+      </a>
+
+      <a
+        href="#projects"
+        (click)="onCtaClick('view-projects:hero')"
+        class="font-body text-text-muted border-border bg-surface/50 hover:border-signal-blue/45 hover:bg-signal-blue/10 hover:text-text group inline-flex items-center gap-2 rounded-full border px-6 py-3 text-sm font-medium backdrop-blur transition-all duration-300"
+      >
+        View projects
+        <svg
+          class="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M8 2.5v11M4 9.5l4 4 4-4" />
+        </svg>
+      </a>
     </div>
-    <div class="p-4">
-      <p class="font-display text-text text-2xl font-semibold">{{ statusStrip.coreFocus }}</p>
-      <p class="font-mono text-text-faint mt-1 text-xs">core focus</p>
-    </div>
-    <div class="p-4">
-      <p class="font-display text-text text-2xl font-semibold">{{ statusStrip.education }}</p>
-      <p class="font-mono text-text-faint mt-1 text-xs">{{ statusStrip.educationLabel }}</p>
-    </div>
-    <div class="p-4">
-      <p class="font-display text-text text-2xl font-semibold">{{ statusStrip.feedback }}</p>
-      <p class="font-mono text-text-faint mt-1 text-xs">{{ statusStrip.feedbackLabel }}</p>
-    </div>
+
+    <!-- Status strip (spec 2.3): hairline 4-cell grid of verifiable proof points. -->
+    <dl
+      class="border-border bg-border mt-14 grid max-w-4xl grid-cols-2 gap-px overflow-hidden rounded-2xl border sm:grid-cols-4"
+    >
+      <div class="bg-ink/85 hover:bg-signal-blue/7 px-4 py-5 transition-colors duration-300">
+        <dd class="font-display text-text text-2xl font-semibold tabular-nums">
+          {{ liveProjectCount() }}
+        </dd>
+        <dt class="font-mono text-text-faint mt-1.5 text-[10px] leading-relaxed tracking-[0.14em] uppercase">
+          live projects
+        </dt>
+      </div>
+      <div class="bg-ink/85 hover:bg-signal-blue/7 px-4 py-5 transition-colors duration-300">
+        <dd class="font-display text-text text-2xl font-semibold">{{ statusStrip.coreFocus }}</dd>
+        <dt class="font-mono text-text-faint mt-1.5 text-[10px] leading-relaxed tracking-[0.14em] uppercase">
+          core focus
+        </dt>
+      </div>
+      <div class="bg-ink/85 hover:bg-signal-blue/7 px-4 py-5 transition-colors duration-300">
+        <dd class="font-display text-text text-2xl font-semibold tabular-nums">
+          {{ statusStrip.education }}
+        </dd>
+        <dt class="font-mono text-text-faint mt-1.5 text-[10px] leading-relaxed tracking-[0.14em] uppercase">
+          {{ statusStrip.educationLabel }}
+        </dt>
+      </div>
+      <div class="bg-ink/85 hover:bg-signal-blue/7 px-4 py-5 transition-colors duration-300">
+        <dd class="font-display text-text text-2xl font-semibold tabular-nums">
+          {{ statusStrip.feedback }}
+        </dd>
+        <dt class="font-mono text-text-faint mt-1.5 text-[10px] leading-relaxed tracking-[0.14em] uppercase">
+          {{ statusStrip.feedbackLabel }}
+        </dt>
+      </div>
+    </dl>
   </div>
 </section>

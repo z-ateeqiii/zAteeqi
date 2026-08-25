@@ -1,0 +1,11 @@
+/* A single soft accent bloom behind the panel — the only glow on the page. */
+.contact-panel__glow {
+  position: absolute;
+  top: -42%;
+  left: 50%;
+  width: min(760px, 120%);
+  height: 340px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at center, rgb(76 141 255 / 19%), transparent 68%);
+  pointer-events: none;
+}

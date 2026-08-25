@@ -1,24 +1,47 @@
-<section id="experience" class="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-  <p class="font-mono text-signal-blue text-xs">/experience</p>
-  <h2 class="font-display text-text mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
-    Experience
-  </h2>
+<section id="experience" class="border-border border-t">
+  <div class="mx-auto max-w-6xl px-5 py-16 sm:px-8 md:py-22">
+    <p
+      class="border-signal-blue/25 bg-signal-blue/10 text-signal-blue font-mono inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[11px] leading-none tracking-[0.06em]"
+    >
+      <span class="bg-signal-blue h-1 w-1 rounded-full"></span>
+      /experience
+    </p>
 
-  <ol class="border-border mt-10 space-y-8 border-l pl-6">
-    @for (entry of experience; track entry.org; let i = $index) {
-      <li [appRevealOnScroll]="i * 60" class="relative">
-        <span class="bg-signal-blue absolute top-1.5 -left-7.25 h-2.5 w-2.5 rounded-full"></span>
-        <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-          <h3 class="font-display text-text text-base font-semibold">
-            {{ entry.role }} · {{ entry.org }}
-          </h3>
-          <span class="font-mono text-text-faint text-xs">{{ entry.dates }}</span>
-        </div>
-        <p class="font-mono text-text-faint mt-1 text-xs">{{ entry.employment }}</p>
-        <p class="font-body text-text-muted mt-2 max-w-2xl text-sm leading-relaxed">
-          {{ entry.description }}
-        </p>
-      </li>
-    }
-  </ol>
+    <h2
+      class="font-display text-gradient mt-5 max-w-xl text-3xl leading-[1.1] font-semibold tracking-[-0.025em] sm:text-4xl md:text-[2.75rem]"
+    >
+      Experience
+    </h2>
+
+    <ol class="timeline border-border relative mt-12 max-w-3xl space-y-10 border-l pl-9">
+      <span class="timeline__lead" aria-hidden="true"></span>
+
+      @for (entry of experience; track entry.org; let i = $index) {
+        <li [appRevealOnScroll]="i * 60" class="timeline__item group relative">
+          <span
+            class="timeline__node border-border bg-ink group-hover:border-signal-blue/60 absolute top-1 -left-12 grid h-6 w-6 place-items-center rounded-full border transition-colors duration-300"
+            aria-hidden="true"
+          >
+            <span class="bg-signal-blue h-1.5 w-1.5 rounded-full"></span>
+          </span>
+
+          <div class="flex flex-wrap items-baseline justify-between gap-x-5 gap-y-1">
+            <h3 class="font-display text-text text-base font-semibold tracking-[-0.01em] sm:text-lg">
+              {{ entry.role }}
+              <span class="text-text-muted font-normal">· {{ entry.org }}</span>
+            </h3>
+            <span class="font-mono text-text-faint shrink-0 text-[11px] tracking-[0.04em]">
+              {{ entry.dates }}
+            </span>
+          </div>
+
+          <p class="font-mono text-text-faint mt-1.5 text-[11px]">{{ entry.employment }}</p>
+
+          <p class="font-body text-text-muted mt-3 max-w-2xl text-sm leading-relaxed">
+            {{ entry.description }}
+          </p>
+        </li>
+      }
+    </ol>
+  </div>
 </section>

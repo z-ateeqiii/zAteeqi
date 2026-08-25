@@ -73,6 +73,10 @@ export class TopbarComponent implements AfterViewInit, OnDestroy {
     this.observer?.disconnect();
   }
 
+  isActive(section: TopbarSection): boolean {
+    return this.activePath() === section.path;
+  }
+
   toggleMenu(): void {
     this.isMenuOpen.update((open) => !open);
   }

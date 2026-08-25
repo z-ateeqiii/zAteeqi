@@ -1,21 +1,40 @@
 @import "tailwindcss";
 
+/*
+ * Design tokens (spec 2.3). These are emitted as CSS custom properties on
+ * :root and simultaneously registered with Tailwind, so every token is
+ * reachable both as a utility (text-text-muted, border-border, font-mono)
+ * and as var(--...) inside component SCSS.
+ */
 @theme {
+  /* Surfaces */
   --color-ink: #0a0d12;
   --color-surface: #12161d;
   --color-surface-2: #171c25;
   --color-border: #232a35;
 
+  /* Text tiers */
   --color-text: #e7eaef;
   --color-text-muted: #8a93a3;
-  --color-text-faint: #565f6f;
+  --color-text-faint: #757e91;
 
+  /* Signals */
   --color-signal-blue: #4c8dff;
+  --color-signal-blue-hi: #7aabff;
   --color-signal-green: #34d399;
   --color-signal-amber: #f5a623;
   --color-signal-coral: #ff6b57;
 
-  --font-display: 'Space Grotesk', sans-serif;
-  --font-body: 'IBM Plex Sans', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  /* Type families */
+  --font-display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+
+  /* Make the theme fonts the document defaults so Tailwind's own preflight
+     resolves to them instead of the stock ui-sans-serif stack. */
+  --default-font-family: var(--font-body);
+  --default-mono-font-family: var(--font-mono);
+
+  /* Motion */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }

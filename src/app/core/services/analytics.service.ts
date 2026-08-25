@@ -1,6 +1,6 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Observable } from 'rxjs';
+import { Observable, catchError, of } from 'rxjs';
 import {
   Firestore,
   Timestamp,
@@ -10,6 +10,7 @@ import {
   serverTimestamp,
 } from '@angular/fire/firestore';
 import { AnalyticsEventWithId } from '../models/analytics-event.model';
+import { isFirebaseConfigured } from '../firebase/firebase.providers';
 
 const SESSION_ID_KEY = 'zateeqi_session_id';
 
@@ -17,15 +18,22 @@ const SESSION_ID_KEY = 'zateeqi_session_id';
   providedIn: 'root',
 })
 export class AnalyticsService {
-  private readonly firestore = inject(Firestore);
-  private readonly eventsCollection = collection(this.firestore, 'analytics_events');
+  /** No Firebase project yet means analytics is a no-op rather than a crash. */
+  readonly isEnabled = isFirebaseConfigured();
 
-  readonly events = toSignal(
-    collectionData(this.eventsCollection, { idField: 'id' }) as Observable<
-      AnalyticsEventWithId[]
-    >,
-    { initialValue: [] },
-  );
+  private readonly firestore = this.isEnabled ? inject(Firestore) : null;
+  private readonly eventsCollection = this.firestore
+    ? collection(this.firestore, 'analytics_events')
+    : null;
+
+  readonly events = this.eventsCollection
+    ? toSignal(
+        collectionData(this.eventsCollection, { idField: 'id' }).pipe(
+          catchError(() => of([])),
+        ) as unknown as Observable<AnalyticsEventWithId[]>,
+        { initialValue: [] as AnalyticsEventWithId[] },
+      )
+    : signal<AnalyticsEventWithId[]>([]).asReadonly();
 
   private getSessionId(): string {
     let sessionId = localStorage.getItem(SESSION_ID_KEY);
@@ -37,6 +45,7 @@ export class AnalyticsService {
   }
 
   async trackPageview(): Promise<void> {
+    if (!this.eventsCollection) return;
     await addDoc(this.eventsCollection, {
       type: 'pageview',
       sessionId: this.getSessionId(),
@@ -45,6 +54,7 @@ export class AnalyticsService {
   }
 
   async trackCtaClick(target: string): Promise<void> {
+    if (!this.eventsCollection) return;
     await addDoc(this.eventsCollection, {
       type: 'cta_click',
       target,

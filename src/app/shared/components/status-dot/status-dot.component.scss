@@ -3,6 +3,7 @@
   display: inline-flex;
   width: 8px;
   height: 8px;
+  flex: 0 0 auto;
   border-radius: 50%;
 }
 
@@ -12,32 +13,37 @@
   border-radius: 50%;
 }
 
-.dot--live {
-  .dot__core {
-    background-color: var(--signal-green);
-    box-shadow: 0 0 0 0 rgb(52 211 153 / 60%);
-    animation: pulse 2s ease-out infinite;
-  }
+.dot--live .dot__core {
+  background-color: var(--signal-green);
+  animation: pulse 2.4s ease-out infinite;
 }
 
 .dot--draft .dot__core {
   background-color: var(--signal-amber);
+  box-shadow: 0 0 6px rgb(245 166 35 / 45%);
 }
 
 @keyframes pulse {
   0% {
-    box-shadow: 0 0 0 0 rgb(52 211 153 / 45%);
+    box-shadow:
+      0 0 0 0 rgb(52 211 153 / 50%),
+      0 0 6px rgb(52 211 153 / 55%);
   }
   70% {
-    box-shadow: 0 0 0 6px rgb(52 211 153 / 0%);
+    box-shadow:
+      0 0 0 7px rgb(52 211 153 / 0%),
+      0 0 6px rgb(52 211 153 / 55%);
   }
   100% {
-    box-shadow: 0 0 0 0 rgb(52 211 153 / 0%);
+    box-shadow:
+      0 0 0 0 rgb(52 211 153 / 0%),
+      0 0 6px rgb(52 211 153 / 55%);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .dot--live .dot__core {
     animation: none;
+    box-shadow: 0 0 6px rgb(52 211 153 / 55%);
   }
 }

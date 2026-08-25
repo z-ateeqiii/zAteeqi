@@ -1,21 +1,40 @@
+/* ---------------------------------------------------------------------------
+   Global layer: design tokens, document defaults, and the handful of visual
+   effects that are clearer as real CSS than as utility strings.
+   Loaded after tailwind.css (see angular.json "styles").
+--------------------------------------------------------------------------- */
+
 :root {
+  /* Surfaces */
   --ink: #0a0d12;
   --surface: #12161d;
   --surface-2: #171c25;
   --border: #232a35;
 
+  /* Text tiers. --text-faint was lifted from #565f6f to #757e91 so the small
+     mono metadata still clears 4.5:1 against --ink (spec 2.9 / Lighthouse a11y). */
   --text: #e7eaef;
   --text-muted: #8a93a3;
-  --text-faint: #565f6f;
+  --text-faint: #757e91;
 
+  /* Signals */
   --signal-blue: #4c8dff;
+  --signal-blue-hi: #7aabff;
   --signal-green: #34d399;
   --signal-amber: #f5a623;
   --signal-coral: #ff6b57;
 
-  --font-display: 'Space Grotesk', sans-serif;
-  --font-body: 'IBM Plex Sans', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  /* Type families — declared with literal names (not only via var()) so the
+     document still renders in the intended faces even if a token is missing. */
+  --font-display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+
+  /* Rhythm (spec 2.3): 88px section padding, 64px below ~768px. */
+  --section-pad: 5.5rem;
+  --section-pad-sm: 4rem;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 
   color-scheme: dark;
   scroll-behavior: smooth;
@@ -37,13 +56,36 @@ body {
 body {
   background-color: var(--ink);
   background-image:
-    radial-gradient(ellipse 80% 60% at 0% 0%, rgb(76 141 255 / 10%), transparent 60%),
-    radial-gradient(ellipse 70% 50% at 100% 0%, rgb(255 107 87 / 6%), transparent 60%);
+    radial-gradient(ellipse 90% 55% at 0% 0%, rgb(76 141 255 / 10%), transparent 62%),
+    radial-gradient(ellipse 70% 45% at 100% 0%, rgb(255 107 87 / 6%), transparent 60%);
   background-attachment: fixed;
+  background-repeat: no-repeat;
   color: var(--text);
-  font-family: var(--font-body);
+  font-family: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Display face on every heading by default; mono on code-ish elements. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+code,
+kbd,
+samp,
+pre {
+  font-family: "JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
 }
 
 a {
@@ -72,19 +114,89 @@ textarea {
 
 :focus-visible {
   outline: 2px solid var(--signal-blue);
-  outline-offset: 2px;
+  outline-offset: 3px;
+  border-radius: 4px;
 }
+
+::selection {
+  background: rgb(76 141 255 / 30%);
+  color: var(--text);
+}
+
+/* Anchor navigation clears the sticky topbar (64px) with room to breathe. */
+[id] {
+  scroll-margin-top: 5.5rem;
+}
+
+/* --- Scrollbar ----------------------------------------------------------- */
+
+* {
+  scrollbar-color: var(--border) var(--ink);
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ink);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #333d4c;
+}
+
+/* --- Shared effects ------------------------------------------------------ */
+
+/* Headline treatment: solid at the start of the line, softening toward the end. */
+.text-gradient {
+  background-image: linear-gradient(
+    135deg,
+    var(--text) 0%,
+    var(--text) 42%,
+    rgb(231 234 239 / 58%) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Primary action: 1px ring plus a soft cast shadow in the accent. */
+.glow-blue {
+  box-shadow:
+    0 0 0 1px rgb(76 141 255 / 45%),
+    0 10px 30px -12px rgb(76 141 255 / 75%);
+}
+
+.glow-blue:hover {
+  box-shadow:
+    0 0 0 1px rgb(76 141 255 / 85%),
+    0 16px 40px -12px rgb(76 141 255 / 90%);
+}
+
+/* --- Scroll reveal ------------------------------------------------------- */
 
 .reveal-on-scroll {
   opacity: 0;
-  transform: translateY(16px);
+  transform: translateY(18px);
   transition:
-    opacity 0.5s ease,
-    transform 0.5s ease;
+    opacity 0.6s var(--ease-out-soft),
+    transform 0.6s var(--ease-out-soft);
+  will-change: opacity, transform;
 
   &.is-revealed {
     opacity: 1;
     transform: none;
+    will-change: auto;
   }
 }
 
@@ -96,5 +208,10 @@ textarea {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .reveal-on-scroll {
+    opacity: 1;
+    transform: none;
   }
 }

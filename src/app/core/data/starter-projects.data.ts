@@ -1,4 +1,4 @@
-import { Project } from '../models/project.model';
+import { Project, ProjectWithId } from '../models/project.model';
 
 export const STARTER_PROJECTS: Record<string, Project> = {
   'scholarship-ops': {
@@ -57,3 +57,16 @@ export const STARTER_PROJECTS: Record<string, Project> = {
     order: 5,
   },
 };
+
+/**
+ * The same seed records as a sorted array, used as the public site's local
+ * fallback whenever Firestore is unconfigured, unreachable, or still empty.
+ * Firestore remains the source of truth the moment it returns anything.
+ */
+export const STARTER_PROJECT_LIST: ProjectWithId[] = Object.entries(STARTER_PROJECTS)
+  .map(([id, project]) => ({ id, ...project }))
+  .sort((a, b) => a.order - b.order);
+
+export const STARTER_LIVE_PROJECTS: ProjectWithId[] = STARTER_PROJECT_LIST.filter(
+  (project) => project.status === 'live',
+);

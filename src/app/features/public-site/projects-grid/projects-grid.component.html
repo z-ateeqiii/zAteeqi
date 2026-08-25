@@ -1,54 +1,114 @@
-<section id="projects" class="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-  <p class="font-mono text-signal-blue text-xs">/projects</p>
-  <h2 class="font-display text-text mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
-    Selected work
-  </h2>
+<section id="projects" class="border-border border-t">
+  <div class="mx-auto max-w-6xl px-5 py-16 sm:px-8 md:py-22">
+    <p
+      class="border-signal-blue/25 bg-signal-blue/10 text-signal-blue font-mono inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[11px] leading-none tracking-[0.06em]"
+    >
+      <span class="bg-signal-blue h-1 w-1 rounded-full"></span>
+      /projects
+    </p>
 
-  <div class="mt-10 grid gap-5 sm:grid-cols-2">
-    @for (project of projects(); track project.id; let i = $index) {
-      <article
-        [appRevealOnScroll]="i * 60"
-        class="group border-border bg-surface hover:border-signal-blue/50 hover:shadow-signal-blue/10 flex flex-col rounded-lg border p-5 transition-all hover:-translate-y-1 hover:shadow-lg"
+    <div class="mt-5 flex flex-wrap items-end justify-between gap-x-8 gap-y-4">
+      <h2
+        class="font-display text-gradient max-w-xl text-3xl leading-[1.1] font-semibold tracking-[-0.025em] sm:text-4xl md:text-[2.75rem]"
       >
-        <div class="flex items-center gap-2">
-          <app-status-dot [status]="project.status" />
-          <span class="font-mono text-text-faint text-xs">{{ project.route }}</span>
-        </div>
+        Selected work
+      </h2>
+      <p class="font-body text-text-muted max-w-md text-sm leading-relaxed">
+        Production systems, not demos — each one shipped, deployed, and running behind a real
+        authorization model.
+      </p>
+    </div>
 
-        <h3 class="font-display text-text mt-3 text-lg font-semibold">{{ project.title }}</h3>
-        <p class="font-body text-text-muted mt-2 text-sm leading-relaxed">
-          {{ project.description }}
-        </p>
+    <div class="mt-12 grid gap-5 sm:grid-cols-2">
+      @for (project of projects(); track project.id; let i = $index) {
+        <article
+          [appRevealOnScroll]="i * 60"
+          class="project-card border-border bg-surface/70 hover:border-signal-blue/45 group relative flex flex-col overflow-hidden rounded-2xl border p-6 transition-all duration-300 hover:-translate-y-1"
+        >
+          <span class="project-card__shine" aria-hidden="true"></span>
 
-        <ul class="mt-4 flex flex-wrap gap-2">
-          @for (tag of project.tags; track tag) {
-            <li class="font-mono bg-surface-2 text-text-muted rounded px-2 py-1 text-xs">
-              {{ tag }}
-            </li>
-          }
-        </ul>
+          <div class="relative flex items-center justify-between gap-3">
+            <div class="flex min-w-0 items-center gap-2.5">
+              <app-status-dot [status]="project.status" />
+              <span class="font-mono text-text-faint truncate text-[11px]">
+                {{ project.route }}
+              </span>
+            </div>
+            <span
+              class="font-mono shrink-0 text-[10px] tracking-[0.16em] uppercase"
+              [class.text-signal-green]="project.status === 'live'"
+              [class.text-signal-amber]="project.status === 'draft'"
+            >
+              {{ project.status }}
+            </span>
+          </div>
 
-        <div class="border-border mt-5 flex gap-4 border-t pt-4 text-sm">
-          <a
-            [href]="project.liveUrl"
-            target="_blank"
-            rel="noopener noreferrer"
-            (click)="onLinkClick('live', project.id)"
-            class="text-signal-blue font-body font-medium hover:underline"
+          <h3
+            class="font-display text-text group-hover:text-signal-blue-hi relative mt-4 text-lg font-semibold tracking-[-0.01em] transition-colors duration-300 sm:text-xl"
           >
-            Live demo
-          </a>
-          <a
-            [href]="project.githubUrl"
-            target="_blank"
-            rel="noopener noreferrer"
-            (click)="onLinkClick('source', project.id)"
-            class="font-body text-text-muted font-medium hover:underline"
-          >
-            Source
-          </a>
-        </div>
-      </article>
-    }
+            {{ project.title }}
+          </h3>
+
+          <p class="font-body text-text-muted relative mt-3 text-sm leading-relaxed">
+            {{ project.description }}
+          </p>
+
+          <ul class="relative mt-5 flex flex-wrap gap-1.5">
+            @for (tag of project.tags; track tag) {
+              <li
+                class="font-mono border-border/90 bg-surface-2/70 text-text-muted group-hover:border-border rounded-full border px-2.5 py-1 text-[11px] leading-none transition-colors duration-300"
+              >
+                {{ tag }}
+              </li>
+            }
+          </ul>
+
+          <div class="border-border relative mt-auto flex gap-5 border-t pt-5 text-sm">
+            <a
+              [href]="project.liveUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              (click)="onLinkClick('live', project.id)"
+              class="text-signal-blue hover:text-signal-blue-hi font-body inline-flex items-center gap-1.5 font-medium transition-colors"
+            >
+              Live demo
+              <svg
+                class="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M5 11 11 5M6 5h5v5" />
+              </svg>
+            </a>
+            <a
+              [href]="project.githubUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              (click)="onLinkClick('source', project.id)"
+              class="font-body text-text-muted hover:text-text inline-flex items-center gap-1.5 font-medium transition-colors"
+            >
+              Source
+              <svg
+                class="h-3.5 w-3.5"
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M5 11 11 5M6 5h5v5" />
+              </svg>
+            </a>
+          </div>
+        </article>
+      }
+    </div>
   </div>
 </section>

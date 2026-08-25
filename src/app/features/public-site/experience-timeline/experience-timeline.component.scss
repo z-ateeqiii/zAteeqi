@@ -1,0 +1,10 @@
+/* The rail starts as accent and fades into the neutral border colour. */
+.timeline__lead {
+  position: absolute;
+  top: 0;
+  left: -1px;
+  width: 1px;
+  height: 140px;
+  background: linear-gradient(to bottom, var(--signal-blue), transparent);
+  pointer-events: none;
+}
