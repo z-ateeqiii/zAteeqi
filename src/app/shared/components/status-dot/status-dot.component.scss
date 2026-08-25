@@ -1,0 +1,43 @@
+.dot {
+  position: relative;
+  display: inline-flex;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dot__core {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}
+
+.dot--live {
+  .dot__core {
+    background-color: var(--signal-green);
+    box-shadow: 0 0 0 0 rgb(52 211 153 / 60%);
+    animation: pulse 2s ease-out infinite;
+  }
+}
+
+.dot--draft .dot__core {
+  background-color: var(--signal-amber);
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgb(52 211 153 / 45%);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgb(52 211 153 / 0%);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgb(52 211 153 / 0%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot--live .dot__core {
+    animation: none;
+  }
+}

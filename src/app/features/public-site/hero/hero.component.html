@@ -1,0 +1,62 @@
+<section id="home" class="mx-auto max-w-6xl px-4 pt-16 pb-20 sm:px-6 sm:pt-24 sm:pb-28">
+  <div class="font-mono text-text-muted mb-8 min-h-16 text-sm sm:text-base">
+    @for (line of bootLines; track line; let i = $index) {
+      @if (i < visibleLineCount()) {
+        <p class="leading-relaxed">
+          {{ line }}
+          @if (bootComplete() && i === bootLines.length - 1) {
+            <span class="cursor" aria-hidden="true">▌</span>
+          }
+        </p>
+      }
+    }
+  </div>
+
+  <h1
+    class="font-display text-text max-w-3xl text-4xl leading-tight font-semibold tracking-tight sm:text-5xl md:text-6xl"
+  >
+    {{ heroCopy.title }}
+  </h1>
+
+  <p class="font-body text-text-muted mt-6 max-w-2xl text-base leading-relaxed sm:text-lg">
+    {{ heroCopy.subhead }}
+  </p>
+
+  <div class="mt-8 flex flex-wrap items-center gap-4">
+    <a
+      [href]="'mailto:' + profile.email"
+      (click)="onCtaClick('email:hero')"
+      class="bg-signal-blue font-body rounded-md px-5 py-2.5 text-sm font-medium text-white transition-transform hover:-translate-y-0.5"
+    >
+      Email me
+    </a>
+    <a
+      href="#projects"
+      (click)="onCtaClick('view-projects:hero')"
+      class="font-body text-text border-border hover:bg-surface rounded-md border px-5 py-2.5 text-sm font-medium transition-colors"
+    >
+      View projects
+    </a>
+  </div>
+
+  <div
+    class="border-border divide-border mt-14 grid grid-cols-2 divide-x divide-y border sm:grid-cols-4 sm:divide-y-0"
+  >
+    <div class="p-4">
+      <p class="font-display text-text text-2xl font-semibold">{{ liveProjectCount() }}</p>
+      <p class="font-mono text-text-faint mt-1 text-xs">live projects</p>
+    </div>
+    <div class="p-4">
+      <p class="font-display text-text text-2xl font-semibold">{{ statusStrip.coreFocus }}</p>
+      <p class="font-mono text-text-faint mt-1 text-xs">core focus</p>
+    </div>
+    <div class="p-4">
+      <p class="font-display text-text text-2xl font-semibold">{{ statusStrip.education }}</p>
+      <p class="font-mono text-text-faint mt-1 text-xs">{{ statusStrip.educationLabel }}</p>
+    </div>
+    <div class="p-4">
+      <p class="font-display text-text text-2xl font-semibold">{{ statusStrip.feedback }}</p>
+      <p class="font-mono text-text-faint mt-1 text-xs">{{ statusStrip.feedbackLabel }}</p>
+    </div>
+  </div>
+</section>
