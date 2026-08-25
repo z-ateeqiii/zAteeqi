@@ -1,16 +1,18 @@
-<div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+<div class="mx-auto max-w-6xl px-5 py-10 sm:px-8">
   <div class="flex flex-wrap items-center justify-between gap-4">
-    <div>
+    <div class="min-w-0">
       <p class="font-mono text-signal-blue text-xs">/admin/dashboard</p>
       <h1 class="font-display text-text mt-1 text-2xl font-semibold tracking-tight">
         Deployment console
       </h1>
-      <p class="font-mono text-text-faint mt-1 text-xs">role: admin ({{ userEmail() }})</p>
+      <p class="font-mono text-text-faint mt-1 truncate text-xs" [title]="userEmail()">
+        role: admin ({{ userEmail() }})
+      </p>
     </div>
     <button
       type="button"
       (click)="onSignOut()"
-      class="border-border text-text-muted font-body rounded-md border px-4 py-2 text-sm hover:text-text"
+      class="border-border text-text-muted font-body hover:text-text shrink-0 rounded-md border px-4 py-2 text-sm"
     >
       Sign out
     </button>
@@ -53,7 +55,7 @@
     <h2 class="font-display text-text text-lg font-semibold">Analytics</h2>
     <p class="font-mono text-text-faint mt-1 text-xs">private · visible only to admin</p>
 
-    <div class="border-border bg-surface divide-border mt-4 grid grid-cols-2 divide-x divide-y border sm:grid-cols-2">
+    <div class="border-border bg-surface divide-border mt-4 grid grid-cols-2 divide-x border">
       <div class="p-4">
         <p class="font-display text-text text-2xl font-semibold">{{ summary().totalEvents }}</p>
         <p class="font-mono text-text-faint mt-1 text-xs">total events</p>
@@ -69,9 +71,9 @@
         <p class="font-mono text-text-faint text-xs">events by day</p>
         <ul class="mt-2 space-y-1">
           @for (entry of summary().byDay; track entry[0]) {
-            <li class="font-mono text-text-muted flex justify-between text-xs">
-              <span>{{ entry[0] }}</span>
-              <span>{{ entry[1] }}</span>
+            <li class="font-mono text-text-muted flex justify-between gap-3 text-xs">
+              <span class="min-w-0 truncate">{{ entry[0] }}</span>
+              <span class="shrink-0 tabular-nums">{{ entry[1] }}</span>
             </li>
           } @empty {
             <li class="font-body text-text-faint text-sm">No events yet.</li>
@@ -83,9 +85,9 @@
         <p class="font-mono text-text-faint text-xs">most-clicked links</p>
         <ul class="mt-2 space-y-1">
           @for (entry of summary().byTarget; track entry[0]) {
-            <li class="font-mono text-text-muted flex justify-between text-xs">
-              <span>{{ entry[0] }}</span>
-              <span>{{ entry[1] }}</span>
+            <li class="font-mono text-text-muted flex justify-between gap-3 text-xs">
+              <span class="min-w-0 truncate" [title]="entry[0]">{{ entry[0] }}</span>
+              <span class="shrink-0 tabular-nums">{{ entry[1] }}</span>
             </li>
           } @empty {
             <li class="font-body text-text-faint text-sm">No clicks yet.</li>

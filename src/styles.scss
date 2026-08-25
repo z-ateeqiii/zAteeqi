@@ -1,6 +1,13 @@
 /* ---------------------------------------------------------------------------
-   Global layer: design tokens, document defaults, and the handful of visual
-   effects that are clearer as real CSS than as utility strings.
+   Global stylesheet: design tokens plus the handful of visual effects that are
+   clearer as real CSS than as utility strings.
+
+   Document defaults (body, headings, links, focus rings, scrollbars) are NOT
+   here — they live in tailwind.css inside `@layer base`. Anything unlayered in
+   this file outranks every Tailwind utility regardless of specificity, so
+   element resets written here would silently defeat px-*, py-*, mx-auto and
+   text-* across the whole site.
+
    Loaded after tailwind.css (see angular.json "styles").
 --------------------------------------------------------------------------- */
 
@@ -24,8 +31,8 @@
   --signal-amber: #f5a623;
   --signal-coral: #ff6b57;
 
-  /* Type families — declared with literal names (not only via var()) so the
-     document still renders in the intended faces even if a token is missing. */
+  /* Type families — declared with literal names (not only via var()) so
+     component SCSS can reach them independently of the Tailwind theme. */
   --font-display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
   --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
@@ -40,121 +47,10 @@
   scroll-behavior: smooth;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html,
-body {
-  height: 100%;
-}
-
-body {
-  background-color: var(--ink);
-  background-image:
-    radial-gradient(ellipse 90% 55% at 0% 0%, rgb(76 141 255 / 10%), transparent 62%),
-    radial-gradient(ellipse 70% 45% at 100% 0%, rgb(255 107 87 / 6%), transparent 60%);
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  color: var(--text);
-  font-family: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
-  font-size: 16px;
-  line-height: 1.55;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
-
-/* Display face on every heading by default; mono on code-ish elements. */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-}
-
-code,
-kbd,
-samp,
-pre {
-  font-family: "JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-img {
-  display: block;
-  max-width: 100%;
-}
-
-button {
-  cursor: pointer;
-  border: none;
-  background: none;
-  font: inherit;
-  color: inherit;
-}
-
-input,
-textarea {
-  font: inherit;
-  color: inherit;
-}
-
-:focus-visible {
-  outline: 2px solid var(--signal-blue);
-  outline-offset: 3px;
-  border-radius: 4px;
-}
-
-::selection {
-  background: rgb(76 141 255 / 30%);
-  color: var(--text);
-}
-
-/* Anchor navigation clears the sticky topbar (64px) with room to breathe. */
-[id] {
-  scroll-margin-top: 5.5rem;
-}
-
-/* --- Scrollbar ----------------------------------------------------------- */
-
-* {
-  scrollbar-color: var(--border) var(--ink);
-  scrollbar-width: thin;
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--ink);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border: 2px solid var(--ink);
-  border-radius: 999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #333d4c;
-}
-
-/* --- Shared effects ------------------------------------------------------ */
+/* --- Shared effects ------------------------------------------------------
+   Deliberately unlayered: each is opt-in via an explicit class and is meant to
+   win over the utilities it sits beside (.text-gradient in particular must
+   override any inherited text colour). */
 
 /* Headline treatment: solid at the start of the line, softening toward the end. */
 .text-gradient {

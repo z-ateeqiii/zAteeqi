@@ -38,3 +38,106 @@
   /* Motion */
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
+
+/*
+ * Document defaults MUST live here rather than in styles.scss. Unlayered CSS
+ * beats every cascade layer regardless of specificity, so element resets
+ * written in styles.scss (which has no Tailwind context) silently defeated the
+ * px-*, py-*, mx-auto and text-* utilities in @layer utilities — the entire
+ * site rendered flush to the viewport edge with no gutters. Declared inside
+ * this file's `@layer base`, they sit alongside preflight and utilities win
+ * normally. Note: the `*` margin/padding/box-sizing reset is intentionally
+ * absent — Tailwind's own preflight already does exactly that, correctly
+ * layered.
+ */
+@layer base {
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    background-image:
+      radial-gradient(ellipse 90% 55% at 0% 0%, rgb(76 141 255 / 10%), transparent 62%),
+      radial-gradient(ellipse 70% 45% at 100% 0%, rgb(255 107 87 / 6%), transparent 60%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Display face on headings by default; mono on code-ish elements. Weight and
+     tracking are left to utilities so per-heading classes still take effect. */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+  }
+
+  code,
+  kbd,
+  samp,
+  pre {
+    font-family: var(--font-mono);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-signal-blue);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: rgb(76 141 255 / 30%);
+    color: var(--color-text);
+  }
+
+  /* Anchor navigation clears the sticky topbar (64px) with room to breathe. */
+  [id] {
+    scroll-margin-top: 5.5rem;
+  }
+
+  /* --- Scrollbar --------------------------------------------------------- */
+
+  * {
+    scrollbar-color: var(--color-border) var(--color-ink);
+    scrollbar-width: thin;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-ink);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border: 2px solid var(--color-ink);
+    border-radius: 999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #333d4c;
+  }
+}

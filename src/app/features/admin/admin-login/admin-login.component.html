@@ -1,4 +1,6 @@
-<div class="mx-auto flex min-h-[calc(100vh-3.5rem)] max-w-sm flex-col justify-center px-4">
+<!-- Topbar is h-16 (4rem); dvh keeps this centred when mobile browser chrome
+     shows and hides, which 100vh does not. -->
+<div class="mx-auto flex min-h-[calc(100dvh-4rem)] max-w-sm flex-col justify-center px-5">
   <p class="font-mono text-signal-blue text-xs">/admin/login</p>
   <h1 class="font-display text-text mt-2 text-2xl font-semibold tracking-tight">Sign in</h1>
   <p class="font-body text-text-muted mt-1 text-sm">Admin access to the deployment console.</p>
@@ -33,7 +35,7 @@
     <button
       type="submit"
       [disabled]="form.invalid || isSubmitting()"
-      class="bg-signal-blue font-body w-full rounded-md px-4 py-2.5 text-sm font-medium text-white disabled:opacity-50"
+      class="bg-signal-blue text-ink font-body w-full rounded-md px-4 py-3 text-sm font-semibold disabled:opacity-50"
     >
       {{ isSubmitting() ? 'Signing in…' : 'Sign in' }}
     </button>

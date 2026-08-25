@@ -23,8 +23,10 @@
     >
       <span class="bg-signal-green h-1.5 w-1.5 shrink-0 rounded-full"></span>
       {{ profile.role }}
-      <span class="text-text-faint" aria-hidden="true">·</span>
-      <span class="text-text-faint">{{ profile.location }}</span>
+      <!-- Location is dropped on the narrowest screens so the role stays on one
+           line; it still appears in the contact section. -->
+      <span class="text-text-faint hidden sm:inline" aria-hidden="true">·</span>
+      <span class="text-text-faint hidden sm:inline">{{ profile.location }}</span>
     </p>
 
     <h1

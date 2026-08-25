@@ -63,13 +63,15 @@
             }
           </ul>
 
+          <!-- -my-3 absorbs min-h-11 so the links keep their visual position
+               while offering a 44px touch target (spec 2.9). -->
           <div class="border-border relative mt-auto flex gap-5 border-t pt-5 text-sm">
             <a
               [href]="project.liveUrl"
               target="_blank"
               rel="noopener noreferrer"
               (click)="onLinkClick('live', project.id)"
-              class="text-signal-blue hover:text-signal-blue-hi font-body inline-flex items-center gap-1.5 font-medium transition-colors"
+              class="text-signal-blue hover:text-signal-blue-hi font-body -my-3 inline-flex min-h-11 items-center gap-1.5 font-medium transition-colors"
             >
               Live demo
               <svg
@@ -90,7 +92,7 @@
               target="_blank"
               rel="noopener noreferrer"
               (click)="onLinkClick('source', project.id)"
-              class="font-body text-text-muted hover:text-text inline-flex items-center gap-1.5 font-medium transition-colors"
+              class="font-body text-text-muted hover:text-text -my-3 inline-flex min-h-11 items-center gap-1.5 font-medium transition-colors"
             >
               Source
               <svg
